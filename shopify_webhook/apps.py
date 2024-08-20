@@ -3,6 +3,10 @@ shopify_webhook Django application initialization.
 """
 
 from django.apps import AppConfig
+from django.conf import settings
+from openedx.core.djangoapps.plugins.constants import (
+    ProjectType, SettingsType, PluginSettings
+)
 
 
 class ShopifyWebhookConfig(AppConfig):
@@ -20,10 +24,10 @@ class ShopifyWebhookConfig(AppConfig):
                 'relative_path': 'urls',
             }
         },
-        'settings_config': {
-            'lms.djangoapp': {
-                'common': {'relative_path': 'settings'},
-                'production': {'relative_path': 'settings'},
-            }
-        },
+        PluginSettings.CONFIG: {
+            ProjectType.LMS: {
+                SettingsType.COMMON: {PluginSettings.RELATIVE_PATH: 'settings.common'},
+                SettingsType.PRODUCTION: {PluginSettings.RELATIVE_PATH: 'settings.production'},
+            },
+        }
     } 
