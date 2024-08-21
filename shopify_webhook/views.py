@@ -47,13 +47,14 @@ def order_create(request):
         logger.error('Request is missing X-Shopify-Hmac-Sha256 header')
         fail_and_save(data)
         return HttpResponse(status=400)
+    
 
-    # if (not hmac_is_valid(conf['api_key'],
-    #                       data.body,
-    #                       hmac)):
-    #     logger.error('Failed to verify HMAC signature')
-    #     fail_and_save(data)
-    #     return HttpResponse(status=403)
+    if (not hmac_is_valid(conf['api_key'],
+                          data.body,
+                          hmac)):
+        logger.error('Failed to verify HMAC signature')
+        fail_and_save(data)
+        return HttpResponse(status=403)
 
     finish_and_save(data)
 
